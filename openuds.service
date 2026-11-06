@@ -1,0 +1,12 @@
+[Unit]
+Description=OpenUDS 5.0.0 server
+After=network.target mariadb.service
+
+[Service]
+Type=simple
+Restart=always
+WorkingDirectory=/opt/openuds/server/src
+ExecStart=/bin/bash -c '/opt/openuds/.env/bin/python manage.py task_manager --start'
+
+[Install]
+WantedBy=multi-user.target

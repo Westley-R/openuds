@@ -1,0 +1,18 @@
+[Unit]
+Description=OpenUDS web (gunicorn)
+Requires=mariadb.service openuds.service
+After=network.target mariadb.service openuds.service
+
+[Service]
+User=openuds
+Group=openuds
+WorkingDirectory=/opt/openuds/server/src
+RuntimeDirectory=openuds
+RuntimeDirectoryMode=0750
+ExecStart=/opt/openuds/.env/bin/gunicorn server.wsgi:application \
+    --bind unix:/run/openuds/gunicorn.sock \
+    --umask 007 --workers 3 --timeout 60
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target
